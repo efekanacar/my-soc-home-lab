@@ -1,4 +1,4 @@
-title: Suspicious Local User Creation
+title: Şüpheli Yerel Yönetici Oluşturma
 id: d42a4e21-5a6b-482f-8b2b-63870634621f
 status: stable
 description: Komut satırı üzerinden net.exe kullanılarak yerel bir kullanıcının oluşturulmasını tespit eder, kalıcılık göstergesi olabilir.

