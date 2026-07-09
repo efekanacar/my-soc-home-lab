@@ -3,7 +3,7 @@
 ## Senaryo
 Saldırgan, LSASS sürecinin belleğini kopyalayarak sistem belleğinden düz metin şifreleri ve kimlik bilgisi özetlerini (hash) çıkarmaya çalışır.
 
-## 🛠️ Uygulama (Windows Komut Satırı)
+## Uygulama (Windows Komut Satırı)
 `cmd.exe`'yi Yönetici (Administrator) olarak açtım. İlk olarak `tasklist` kullanarak `lsass.exe`'nin İşlem Kimliğini (PID) buldum. Ardından bellek dökümünü diske yazmak için `comsvcs.dll` içindeki `MiniDump` fonksiyonunu `rundll32.exe` ile tetikledim.
 
 1. lsass.exe'nin PID değerini bul

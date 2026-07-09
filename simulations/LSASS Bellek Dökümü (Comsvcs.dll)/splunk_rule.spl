@@ -1,18 +1,8 @@
-/*
 Title: Comsvcs.dll üzerinden LSASS Bellek Dökümü Tespiti
 Description: Kimlik bilgisi hırsızlığı için tipik olan, LSASS'a erişen şüpheli süreçleri tespit eder.
 Author: Efekan Acar
-*/
 
 index=windows sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 
 | search Image="*\\rundll32.exe" CommandLine="*comsvcs.dll*MiniDump*"
 | table _time, host, user, Image, CommandLine, ParentCommandLine
 | eval priority="Critical", incident_type="Credential Dumping"
-```spl
-index=windows Image="*\\rundll32.exe"
-| stats count by Computer
-```
-```cmd
-whoami
-ipconfig /all
-```

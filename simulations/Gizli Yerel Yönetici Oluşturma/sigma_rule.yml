@@ -1,0 +1,23 @@
+title: Suspicious Local User Creation
+id: d42a4e21-5a6b-482f-8b2b-63870634621f
+status: stable
+description: Komut satırı üzerinden net.exe kullanılarak yerel bir kullanıcının oluşturulmasını tespit eder, kalıcılık göstergesi olabilir.
+author: Efekan Acar
+date: 2024-05-15
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        EventID: 1
+        Image|endswith:
+            - '\net.exe'
+            - '\net1.exe'
+        CommandLine|contains|all:
+            - ' user '
+            - ' /add'
+    condition: selection
+level: medium
+tags:
+    - attack.persistence
+    - attack.t1136.001

@@ -1,0 +1,8 @@
+Title: Şüpheli Yerel Yönetici Oluşturma
+Description: Komut satırı araçları kullanılarak yerel bir kullanıcının oluşturulmasını ve yönetici grubuna eklenmesini tespit eder.
+Author: Efekan Acar
+
+index=windows sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+(Image="*\\net.exe" OR Image="*\\net1.exe") CommandLine="*user*" CommandLine="*/add*"
+| table _time, host, user, CommandLine, ParentImage
+| eval priority="High", incident_type="Persistence via Local Admin"
