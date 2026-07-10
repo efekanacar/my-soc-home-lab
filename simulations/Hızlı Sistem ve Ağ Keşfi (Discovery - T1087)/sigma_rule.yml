@@ -1,0 +1,22 @@
+title: Hızlı Sistem Keşif Komutları Çalıştırma
+id: f62a4e21-5a6b-482f-8b2b-63870634621h
+status: experimental
+description: Tek bir kullanıcı tarafından birden fazla sistem ve ağ keşif komutunun hızlı bir şekilde çalıştırılmasını tespit eder.
+author: Efekan Acar
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        EventID: 1
+        Image|endswith:
+            - '\whoami.exe'
+            - '\systeminfo.exe'
+            - '\ipconfig.exe'
+            - '\netstat.exe'
+    timeframe: 2m
+    condition: selection | count() >= 3
+level: medium
+tags:
+    - attack.discovery
+    - attack.t1087

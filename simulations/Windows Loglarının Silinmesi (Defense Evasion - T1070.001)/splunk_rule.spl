@@ -1,0 +1,8 @@
+Title: Komut Satırı Üzerinden Windows Olay Günlüklerinin Silinmesi
+Description: Savunmadan kaçınma eylemine işaret eden, Windows Olay Günlüklerini silmek için wevtutil kullanımını tespit eder.
+Author: Efekan Acar
+
+index=windows-1 source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+Image="*\\wevtutil.exe" CommandLine="* cl *"
+| table _time, host, user, CommandLine, ParentImage
+| eval priority="Critical", incident_type="Defense Evasion - Log Deletion"

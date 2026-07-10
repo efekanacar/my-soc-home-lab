@@ -3,7 +3,6 @@ id: 5a1b3a4a-1a5c-482f-8b2b-63870634621c
 status: experimental
 description: Kimlik bilgisi hırsızlığı için tipik olan, LSASS'a erişen şüpheli süreçleri tespit eder.
 author: Efekan Acar
-date: 2024-05-15
 logsource:
     category: process_creation
     product: windows

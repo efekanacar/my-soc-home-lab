@@ -1,0 +1,11 @@
+Title: Hızlı Sistem Keşif Komutları Çalıştırma
+Description: Tek bir kullanıcı tarafından birden fazla sistem ve ağ keşif komutunun hızlı bir şekilde çalıştırılmasını tespit eder.
+Author: Efekan Acar
+*/
+
+index=windows-1 source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+(Image="*\\whoami.exe" OR Image="*\\systeminfo.exe" OR Image="*\\ipconfig.exe" OR Image="*\\netstat.exe")
+| bin _time span=2m
+| stats count values(CommandLine) as executed_commands by host, user, ParentImage, _time
+| where count >= 3
+| eval priority="Medium", incident_type="Reconnaissance and Discovery"
