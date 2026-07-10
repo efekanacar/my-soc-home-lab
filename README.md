@@ -2,7 +2,7 @@
 
 Welcome to my Security Operations Center (SOC) Home Lab repository. This project demonstrates my practical experience in building a SIEM environment, simulating cyber attacks, and engineering detection rules to catch them.
 
-## 🏗️ Lab Architecture
+## Lab Architecture
 
 The lab is built using virtual machines, isolating the attack environment from the logging and detection environment.
 
