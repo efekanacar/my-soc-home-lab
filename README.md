@@ -1,14 +1,13 @@
-# 🛡️ My SOC Home Lab: End-to-End Threat Detection
+# 🛡️ SOC Laboratuvarım: Uçtan Uca Tehdit Tespiti
 
-Welcome to my Security Operations Center (SOC) Home Lab repository. This project demonstrates my practical experience in building a SIEM environment, simulating cyber attacks, and engineering detection rules to catch them.
+SOC Laboratuvarıma hoş geldiniz. Bu proje, bir SIEM ortamı, siber saldırıları simüle etme ve bunları yakalamak için mühendislik tespit kuralları oluşturma konusundaki pratik deneyimimi gösteriyor.
+##  Lab Mimarisi
 
-## 🏗️ Lab Architecture
-
-The lab is built using virtual machines, isolating the attack environment from the logging and detection environment.
+Laboratuvar, saldırı ortamını günlük kaydı ve tespit ortamından izole eden sanal makineler kullanılarak oluşturulmuştur.
 
 ```text
 +------------------+          +-------------------+          +-------------------+
-|  Attacker Node   |          |  Victim Endpoint  |          |    SIEM Server    |
+| Saldırı Makinesi |          |   Kurban Makine   |          |    SIEM Sunucu    |
 |                  |          |                   |          |                   |
 |  [ Kali Linux ]  | =======> |   [ Windows ]     | =======> |    [ Ubuntu ]     |
 |                  | Network  |                   | Forward  |    (Splunk)       |
