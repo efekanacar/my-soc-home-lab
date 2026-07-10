@@ -1,0 +1,23 @@
+title: Dosyasız PowerShell İndirme ve Çalıştırma
+id: b32a4e21-5a6b-482f-8b2b-63870634621d
+status: experimental
+description: DownloadString kullanarak harici betikleri doğrudan belleğe indirip çalıştıran PowerShell süreçlerini tespit eder.
+author: Efekan Acar
+date: 2024-05-15
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        EventID: 1
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains: 'DownloadString'
+    suspicious_flags:
+        CommandLine|contains:
+            - 'Hidden'
+            - 'Bypass'
+    condition: selection and suspicious_flags
+level: high
+tags:
+    - attack.execution
+    - attack.t1059.001

@@ -1,0 +1,8 @@
+Title: Dosyasız PowerShell İndirme ve Çalıştırma
+Description: DownloadString kullanarak harici betikleri doğrudan belleğe indirip çalıştıran PowerShell süreçlerini tespit eder.
+Author: Efekan Acar
+
+index=windows-1 source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+Image="*\\powershell.exe" CommandLine="*DownloadString*" (CommandLine="*Hidden*" OR CommandLine="*Bypass*")
+| table _time, host, user, CommandLine, ParentImage
+| eval priority="High", incident_type="Fileless Malware Execution"
