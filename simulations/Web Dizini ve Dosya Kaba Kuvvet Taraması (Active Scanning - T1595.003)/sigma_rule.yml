@@ -1,0 +1,23 @@
+title: Web Dizini ve Dosya Kaba Kuvvet Taraması
+id: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
+status: experimental
+description: Aynı kaynaktan gelen anormal sayıdaki 404 web hatalarını ve zafiyet tarayıcılarına ait User-Agent bilgilerini tespit eder.
+author: Efekan Acar
+logsource:
+    category: webserver
+    product: apache
+detection:
+    selection_status:
+        sc_status: 404
+    selection_ua:
+        c_useragent|contains:
+            - 'gobuster'
+            - 'dirb'
+            - 'dirbuster'
+            - 'nmap'
+            - 'nikto'
+    condition: selection_status or selection_ua
+level: medium
+tags:
+    - attack.discovery
+    - attack.t1595.003

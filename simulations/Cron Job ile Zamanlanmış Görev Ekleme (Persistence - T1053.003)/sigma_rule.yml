@@ -1,0 +1,21 @@
+title: Cron Job ile Zamanlanmış Görev Ekleme
+id: f4e3d2c1-b0a9-8f7e-6d5c-4b3a2f1e0d9c
+status: experimental
+description: Saldırganların sistemde kalıcılık sağlamak amacıyla crontab aracını kullanarak zamanlanmış görev ekleme aktivitelerini tespit eder.
+author: Efekan Acar
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection:
+        EventID: 1
+        Image|endswith:
+            - '/crontab'
+        CommandLine|contains:
+            - '-e'
+            - '/tmp'
+    condition: selection
+level: medium
+tags:
+    - attack.persistence
+    - attack.t1053.003

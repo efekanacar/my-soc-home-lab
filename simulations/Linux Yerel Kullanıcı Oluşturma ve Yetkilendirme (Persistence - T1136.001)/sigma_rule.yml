@@ -1,0 +1,23 @@
+title: Linux Yerel Kullanıcı Oluşturma ve Yetkilendirme
+id: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+status: experimental
+description: Linux sistemlerde yetkisiz kalıcılık sağlamak amacıyla yeni kullanıcı oluşturulmasını ve sudo grubuna eklenmesini tespit eder.
+author: Efekan Acar
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection:
+        EventID: 1
+        Image|endswith:
+            - '/useradd'
+            - '/usermod'
+            - '/chpasswd'
+        CommandLine|contains:
+            - 'sudo'
+            - '-aG'
+    condition: selection
+level: medium
+tags:
+    - attack.persistence
+    - attack.t1136.001

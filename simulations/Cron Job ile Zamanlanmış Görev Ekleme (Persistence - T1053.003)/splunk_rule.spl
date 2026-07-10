@@ -1,0 +1,5 @@
+Title: Cron Job ile Zamanlanmış Görev Ekleme
+Description: Saldırganların sistemde kalıcılık sağlamak amacıyla crontab aracını kullanarak zamanlanmış görev ekleme aktivitelerini tespit eder.
+
+index=main (sourcetype="syslog" OR sourcetype="auth.log") (process="crontab" OR "crontab[") ("REPLACE" OR "EDIT")
+| table _time, host, user, process, message

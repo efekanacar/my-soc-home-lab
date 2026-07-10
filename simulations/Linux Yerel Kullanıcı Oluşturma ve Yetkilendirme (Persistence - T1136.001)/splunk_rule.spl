@@ -1,0 +1,5 @@
+Title: Linux Yerel Kullanıcı Oluşturma ve Yetkilendirme
+Description: Linux sistemlerde yetkisiz kalıcılık sağlamak amacıyla yeni kullanıcı oluşturulmasını ve sudo grubuna eklenmesini tespit eder.
+Author: Efekan Acar
+
+index=linux (sourcetype="syslog" OR sourcetype="auth.log") ("useradd" OR "usermod" OR "new user:" OR "added to group")

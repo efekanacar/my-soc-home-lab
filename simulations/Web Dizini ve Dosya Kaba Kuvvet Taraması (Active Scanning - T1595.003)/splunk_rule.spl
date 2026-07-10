@@ -1,0 +1,7 @@
+Title: Web Dizini ve Dosya Kaba Kuvvet Taraması Tespiti
+Description: Aynı IP adresinden kısa süre içerisinde çok sayıda 404 (Not Found) yanıtı dönen anormal istekleri ve olası dizin tarama araçlarını tespit eder.
+
+index=main sourcetype=access_combined status=404
+| bin _time span=1m
+| stats count by _time, clientip, useragent
+| where count > 30
