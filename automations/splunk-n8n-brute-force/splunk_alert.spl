@@ -1,0 +1,4 @@
+index=main "Failed password" 
+| rex field=_raw "Failed password for .* from (?<src_ip>\d+\.\d+\.\d+\.\d+)" 
+| stats count by src_ip 
+| where count >= 5

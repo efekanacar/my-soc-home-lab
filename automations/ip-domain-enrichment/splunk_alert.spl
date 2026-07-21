@@ -1,0 +1,4 @@
+index=main (UFW ALLOW OR UFW BLOCK)
+| rex field=_raw "DST=(?<dest_ip>\d+\.\d+\.\d+\.\d+)"
+| rex field=_raw "SRC=(?<src_ip>\d+\.\d+\.\d+\.\d+)"
+| table _time, src_ip, dest_ip, _raw

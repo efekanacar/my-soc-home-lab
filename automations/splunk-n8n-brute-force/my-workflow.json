@@ -1,0 +1,145 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "900c4d12-5e5d-4d95-bead-5de7b11dd0fe",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3fc3201e-52e6-4aa6-9e5c-ef5d591adaa1",
+      "name": "Webhook",
+      "webhookId": "900c4d12-5e5d-4d95-bead-5de7b11dd0fe"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "99fb2f92-a8ed-4811-ab11-15bf18e39a34",
+              "leftValue": "={{ $json.body.result.src_ip }}",
+              "rightValue": "192.168.3.128",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c1cf8991-9334-4f92-8924-a0ddc59fdbc0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "command": "=sudo ufw deny from  {{ $json.body.result.src_ip }}"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -96
+      ],
+      "id": "eefa308a-dc42-402a-a481-0a46f868fdfb",
+      "name": "Execute a command",
+      "credentials": {
+        "sshPassword": {
+          "id": "ecLIyAYruayBUZXl",
+          "name": "SSH Password account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8471196853",
+        "text": "=🚨 Güvenlik Uyarısı: Bir Brute Force saldırısı engellendi!\nSavunma Aktif Edildi: UFW Firewall\nEngellenen Saldırgan IP:{{ $('Webhook').item.json.body.result.src_ip }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "ee3fc299-2a25-4bbb-a6cb-8f17f60d90e9",
+      "name": "Send a text message",
+      "webhookId": "2d5ba410-a012-4078-b160-92e1c95b44d6",
+      "credentials": {
+        "telegramApi": {
+          "id": "tgsIEehq96SXNUtx",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Execute a command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a command": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "c8a59d92-962f-4dce-a98e-05e309434b89",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ebb8243c88fed067e524e2bc61c4d2bde4a61ebd846026a0234c044ebc4cb6cb"
+  },
+  "nodeGroups": [],
+  "id": "Q6bSbKHikPr4PCtY",
+  "tags": []
+}

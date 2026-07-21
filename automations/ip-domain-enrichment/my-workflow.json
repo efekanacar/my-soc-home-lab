@@ -1,0 +1,179 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "4d3f9c85-7680-4a1b-8725-2d7671ced2eb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fef64550-9026-4294-845c-5b31b69c25f3",
+      "name": "Webhook",
+      "webhookId": "4d3f9c85-7680-4a1b-8725-2d7671ced2eb"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.virustotal.com/api/v3/ip_addresses/{{ $json.body.result.src_ip }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "virusTotalApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "cae56b94-f9a2-40e1-a757-ac2587f96f81",
+      "name": "HTTP Request",
+      "credentials": {
+        "virusTotalApi": {
+          "id": "eJ3RDxizSl7vl3UU",
+          "name": "VirusTotal account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "90d7cdbd-8d3d-454d-bd6e-c2b247c4417a",
+              "leftValue": "={{ $json.data.attributes.last_analysis_stats.malicious }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4717cd69-8e14-41b1-9c03-3946e9897dec",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "8471196853",
+        "text": "=🚨 Threat Intel Uyarısı! Şüpheli bir IP ile iletişim tespit edildi. IP Adresi: {{ $json.body.result.dest_ip }} VirusTotal Skoru: {{ $('HTTP Request').item.json.data.attributes.last_analysis_stats.malicious }} motor zararlı buldu!",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        592,
+        -192
+      ],
+      "id": "ec4d8563-5fb1-4c4b-9b13-cdda2af39401",
+      "name": "Send a text message",
+      "webhookId": "eb19ba52-caaa-466b-b53a-cb0a96c3351b",
+      "credentials": {
+        "telegramApi": {
+          "id": "tgsIEehq96SXNUtx",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "accept-encoding": "identity",
+            "content-length": "640",
+            "host": "0.0.0.0:5678",
+            "content-type": "application/json",
+            "user-agent": "Splunk/1AEA8C2A-B5D5-421D-91C7-A85677EC61FE",
+            "connection": "close"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "sid": "scheduler__acar__launcher__RMD524741b3cfa71b3c4_at_1783812600_650",
+            "search_name": "Şüpheli trafik allow and block",
+            "app": "launcher",
+            "owner": "acar",
+            "results_link": "http://acar-VMware-Virtual-Platform:8000/app/launcher/@go?sid=scheduler__acar__launcher__RMD524741b3cfa71b3c4_at_1783812600_650",
+            "result": {
+              "_time": "1783811898.064856",
+              "src_ip": "172.110.223.179",
+              "dest_ip": "",
+              "_raw": "2026-07-11T19:18:18.064856-04:00 kali kernel: [UFW BLOCK] IN=eth0 OUT= MAC= SRC=fe80:0000:0000:0000:26a0:afea:6865:b066 DST=ff02:0000:0000:0000:0000:0000:0000:000c LEN=655 TC=0 HOPLIMIT=1 FLOWLBL=78408 PROTO=UDP SPT=47912 DPT=3702 LEN=615 "
+            }
+          },
+          "webhookUrl": "http://0.0.0.0:5678/webhook-test/4d3f9c85-7680-4a1b-8725-2d7671ced2eb",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "789b1d54-b781-412c-9f25-2554ed5ab260",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ebb8243c88fed067e524e2bc61c4d2bde4a61ebd846026a0234c044ebc4cb6cb"
+  },
+  "nodeGroups": [],
+  "id": "BewqvnEYqnSZnJWq",
+  "tags": []
+}
